@@ -22,7 +22,6 @@ export default function WallCalendar() {
   const theme    = MONTH_THEMES[viewMonth];
   const monthKey = formatMonthKey(viewYear, viewMonth);
  
-  // Load notes
   useEffect(() => {
     try {
       const raw = localStorage.getItem("wall-cal-notes");
@@ -30,13 +29,11 @@ export default function WallCalendar() {
     } catch {}
   }, []);
  
-  // Inject accent CSS vars whenever month changes
   useEffect(() => {
-    document.documentElement.style.setProperty("--accent",      theme.accent);
-    document.documentElement.style.setProperty("--accent-soft", theme.accentSoft);
+    document.documentElement.style.setProperty("--color-accent",      theme.accent);
+    document.documentElement.style.setProperty("--color-accent-soft", theme.accentSoft);
   }, [theme]);
  
-  // ── Month navigation ──────────────────────────────────────────────────────
   const prevMonth = useCallback(() => {
     setRange({ start: null, end: null });
     setViewMonth(m => {
@@ -53,17 +50,15 @@ export default function WallCalendar() {
     });
   }, []);
  
-  // ── Day range selection ───────────────────────────────────────────────────
   const handleDayClick = useCallback((day: number) => {
     setRange(prev => {
-      if (prev.start === null)                    return { start: day, end: null };
+      if (prev.start === null)                     return { start: day, end: null };
       if (prev.end !== null || prev.start === day) return { start: null, end: null };
       if (day < prev.start)                        return { start: day, end: prev.start };
       return { start: prev.start, end: day };
     });
   }, []);
  
-  // ── Notes save ────────────────────────────────────────────────────────────
   const handleNoteChange = useCallback((text: string) => {
     setNotes(prev => {
       const next = { ...prev, [monthKey]: text };
@@ -73,10 +68,23 @@ export default function WallCalendar() {
   }, [monthKey]);
  
   return (
-    <div className="page-bg">
-      <div className="cal-card animate-fade-in">
- 
-        {/* LEFT: Notes panel (desktop) / BOTTOM: (mobile) */}
+    /* Page background */
+    <div
+      className="min-h-screen flex items-start md:items-center justify-center px-4 py-6"
+      style={{
+        background: `
+          radial-gradient(ellipse 80% 50% at 20% 0%, rgba(29,78,216,0.06) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 40% at 80% 100%, rgba(180,83,9,0.05) 0%, transparent 60%),
+          #f6f2ec
+        `
+      }}
+    >
+      {/* Calendar card */}
+      <div
+        className="animate-fade-in w-full max-w-[900px] bg-white rounded-[20px] overflow-hidden flex flex-col md:flex-row md:max-h-[680px]"
+        style={{ boxShadow: "0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 64px rgba(0,0,0,0.10)" }}
+      >
+        {/* Notes panel */}
         <NotesPanel
           month={viewMonth}
           year={viewYear}
@@ -87,8 +95,8 @@ export default function WallCalendar() {
           onNoteChange={handleNoteChange}
         />
  
-        {/* RIGHT / MAIN: calendar column */}
-        <div className="cal-main">
+        {/* Main calendar column */}
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden pt-1">
           <SpiralBinding />
  
           <HeroImage

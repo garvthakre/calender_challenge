@@ -15,27 +15,52 @@ export default function HeroImage({ month, year, accent, photoId, label }: HeroI
   const src = `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=900&q=80`;
  
   return (
-    <div className="hero-wrap">
+    /* hero wrap */
+    <div className="relative w-full overflow-hidden shrink-0 bg-[#c9d8ea]" style={{ aspectRatio: "16/7" }}>
       {!errored ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
           alt={`${MONTH_NAMES[month]} scenery`}
-          className="hero-img"
+          className="w-full h-full object-cover block transition-transform duration-[600ms] ease-in-out"
           onError={() => setErrored(true)}
         />
       ) : (
-        <div style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${accent}cc 0%, ${accent}44 100%)` }} />
+        <div
+          className="w-full h-full"
+          style={{ background: `linear-gradient(135deg, ${accent}cc 0%, ${accent}44 100%)` }}
+        />
       )}
  
-      <div className="hero-gradient" />
+      {/* gradient overlay */}
+      <div
+        className="absolute inset-0"
+        style={{ background: "linear-gradient(to bottom, transparent 35%, rgba(0,0,0,0.65) 100%)" }}
+      />
  
-      <div className="hero-label">
-        <div className="hero-season">{label} · {year}</div>
-        <div className="hero-month">{MONTH_NAMES[month]}</div>
+      {/* month label - bottom right */}
+      <div className="absolute bottom-0 right-0 px-5 pb-[14px] pt-[14px] pl-14 text-right">
+        <div className="text-[10px] font-medium tracking-[3px] uppercase text-white/65 mb-[3px]">
+          {label} · {year}
+        </div>
+        <div
+          className="font-bold text-white leading-none tracking-[-0.5px]"
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(24px, 5vw, 40px)",
+            textShadow: "0 2px 16px rgba(0,0,0,0.4)"
+          }}
+        >
+          {MONTH_NAMES[month]}
+        </div>
       </div>
  
-      <div className="hero-accent-bar" style={{ background: accent }} />
+      {/* accent bar - bottom left */}
+      <div
+        className="absolute bottom-0 left-0 w-[5px] h-[72px]"
+        style={{ background: accent }}
+      />
     </div>
   );
 }
+ 

@@ -18,35 +18,41 @@ export default function CalendarGrid({
 }: CalendarGridProps) {
   const cells = buildMonthCells(year, month);
  
-  // While user is hovering with only start selected → preview end
   const effectiveEnd = range.end
     ?? (range.start !== null && hoverDay !== null && hoverDay > range.start ? hoverDay : null);
  
   return (
-    <div className="cal-grid-wrap">
-      {/* Weekday labels row */}
-      <div className="weekdays-row">
+    <div className="px-[14px] pb-3 pt-1 flex-1">
+      {/* Weekday labels */}
+      <div className="grid grid-cols-7 mb-[2px]">
         {WEEKDAY_LABELS.map((lbl, i) => (
-          <div key={lbl} className={`weekday-label${i >= 5 ? " weekend" : ""}`}>
+          <div
+            key={lbl}
+            className="text-center text-[10px] font-semibold tracking-[0.8px] uppercase py-[6px]"
+            style={{ color: i >= 5 ? "#b91c1c" : "#a8a29e" }}
+          >
             {lbl}
           </div>
         ))}
       </div>
  
       {/* Day cells */}
-      <div className="days-grid" onMouseLeave={() => onDayHover(null)}>
+      <div
+        className="grid grid-cols-7 gap-px"
+        onMouseLeave={() => onDayHover(null)}
+      >
         {cells.map((day, idx) => {
           if (day === null) {
             return <div key={`e-${idx}`} style={{ aspectRatio: "1" }} />;
           }
  
-          const col        = idx % 7;
-          const isWeekend  = col >= 5;
-          const isToday    = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
-          const isStart    = range.start === day;
-          const isEnd      = range.end   === day;
-          const isInRange  = range.start !== null && effectiveEnd !== null && day > range.start && day < effectiveEnd;
-          const holiday    = HOLIDAYS[`${month}-${day}`] ?? null;
+          const col       = idx % 7;
+          const isWeekend = col >= 5;
+          const isToday   = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
+          const isStart   = range.start === day;
+          const isEnd     = range.end   === day;
+          const isInRange = range.start !== null && effectiveEnd !== null && day > range.start && day < effectiveEnd;
+          const holiday   = HOLIDAYS[`${month}-${day}`] ?? null;
  
           return (
             <DayCell
@@ -67,3 +73,4 @@ export default function CalendarGrid({
     </div>
   );
 }
+ 
