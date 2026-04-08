@@ -68,70 +68,82 @@ export default function WallCalendar() {
   }, [monthKey]);
  
   return (
-    /* Page background */
     <div
-      className="min-h-screen flex items-start md:items-center justify-center px-4 py-6"
+      className="min-h-screen flex items-start md:items-center justify-center px-4 py-6 md:py-10"
       style={{
         background: `
           radial-gradient(ellipse 80% 50% at 20% 0%, rgba(29,78,216,0.06) 0%, transparent 60%),
           radial-gradient(ellipse 60% 40% at 80% 100%, rgba(180,83,9,0.05) 0%, transparent 60%),
           #f6f2ec
-        `
+        `,
       }}
     >
-      {/* Calendar card */}
+      {/* Calendar card — column on mobile, row on desktop */}
       <div
-        className="animate-fade-in w-full max-w-[900px] bg-white rounded-[20px] overflow-hidden flex flex-col md:flex-row md:max-h-[680px]"
-        style={{ boxShadow: "0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 64px rgba(0,0,0,0.10)" }}
+        className="animate-fade-in w-full bg-white rounded-[20px] overflow-hidden"
+        style={{
+          maxWidth: "905px",
+          display: "flex",
+          flexDirection: "column",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 64px rgba(0,0,0,0.10)",
+        }}
       >
-        {/* Notes panel */}
-        <NotesPanel
-          month={viewMonth}
-          year={viewYear}
-          accent={theme.accent}
-          accentSoft={theme.accentSoft}
-          note={notes[monthKey] ?? ""}
-          range={range}
-          onNoteChange={handleNoteChange}
-        />
+        <style>{`
+          @media (min-width: 768px) {
+            .cal-card { flex-direction: row !important; }
+          }
+        `}</style>
  
-        {/* Main calendar column */}
-        <div className="flex-1 flex flex-col min-w-0 overflow-hidden pt-1">
-          <SpiralBinding />
+        <div
+          className="cal-card"
+          style={{ display: "flex", flexDirection: "column", width: "100%", minHeight: 0 }}
+        >
+          {/* Main calendar column — comes first in DOM so it's top on mobile */}
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden", paddingTop: "4px" }}>
+            <SpiralBinding />
+            <HeroImage
+              month={viewMonth}
+              year={viewYear}
+              accent={theme.accent}
+              photoId={theme.photoId}
+              label={theme.label}
+            />
+            <MonthNav
+              month={viewMonth}
+              year={viewYear}
+              onPrev={prevMonth}
+              onNext={nextMonth}
+            />
+            <CalendarGrid
+              year={viewYear}
+              month={viewMonth}
+              today={today}
+              range={range}
+              hoverDay={hoverDay}
+              onDayClick={handleDayClick}
+              onDayHover={setHoverDay}
+            />
+            <RangeDisplay
+              range={range}
+              month={viewMonth}
+              year={viewYear}
+              onClear={() => setRange({ start: null, end: null })}
+            />
+          </div>
  
-          <HeroImage
+          {/* Notes panel — bottom on mobile, left sidebar on desktop */}
+          <NotesPanel
             month={viewMonth}
             year={viewYear}
             accent={theme.accent}
-            photoId={theme.photoId}
-            label={theme.label}
-          />
- 
-          <MonthNav
-            month={viewMonth}
-            year={viewYear}
-            onPrev={prevMonth}
-            onNext={nextMonth}
-          />
- 
-          <CalendarGrid
-            year={viewYear}
-            month={viewMonth}
-            today={today}
+            accentSoft={theme.accentSoft}
+            note={notes[monthKey] ?? ""}
             range={range}
-            hoverDay={hoverDay}
-            onDayClick={handleDayClick}
-            onDayHover={setHoverDay}
-          />
- 
-          <RangeDisplay
-            range={range}
-            month={viewMonth}
-            year={viewYear}
-            onClear={() => setRange({ start: null, end: null })}
+            onNoteChange={handleNoteChange}
           />
         </div>
       </div>
     </div>
   );
 }
+ 
