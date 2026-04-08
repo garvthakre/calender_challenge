@@ -126,8 +126,9 @@ export default function WallCalendar() {
               flexDirection: "column", 
               minWidth: 0, 
               overflow: "hidden",
+              perspective: "1200px",
             }}
-            className={nextDirection === "next" ? "animate-slide-in-right" : "animate-slide-in-left"}
+            className={nextDirection === "next" ? "animate-page-flip-in" : "animate-page-flip-in-back"}
           >
             <HeroImage
               month={viewMonth}
