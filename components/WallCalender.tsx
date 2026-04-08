@@ -12,28 +12,28 @@ import NotesPanel     from "./calender/NotesPanel";
 
 export default function WallCalendar() {
   const today = new Date();
- 
+
   const [viewYear,  setViewYear]  = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth());
   const [range,     setRange]     = useState<DateRange>({ start: null, end: null });
   const [hoverDay,  setHoverDay]  = useState<number | null>(null);
   const [notes,     setNotes]     = useState<Record<string, string>>({});
- 
+
   const theme    = MONTH_THEMES[viewMonth];
   const monthKey = formatMonthKey(viewYear, viewMonth);
- 
+
   useEffect(() => {
     try {
       const raw = localStorage.getItem("wall-cal-notes");
       if (raw) setNotes(JSON.parse(raw));
     } catch {}
   }, []);
- 
+
   useEffect(() => {
     document.documentElement.style.setProperty("--color-accent",      theme.accent);
     document.documentElement.style.setProperty("--color-accent-soft", theme.accentSoft);
   }, [theme]);
- 
+
   const prevMonth = useCallback(() => {
     setRange({ start: null, end: null });
     setViewMonth(m => {
@@ -41,7 +41,7 @@ export default function WallCalendar() {
       return m - 1;
     });
   }, []);
- 
+
   const nextMonth = useCallback(() => {
     setRange({ start: null, end: null });
     setViewMonth(m => {
@@ -49,7 +49,7 @@ export default function WallCalendar() {
       return m + 1;
     });
   }, []);
- 
+
   const handleDayClick = useCallback((day: number) => {
     setRange(prev => {
       if (prev.start === null)                     return { start: day, end: null };
@@ -58,7 +58,7 @@ export default function WallCalendar() {
       return { start: prev.start, end: day };
     });
   }, []);
- 
+
   const handleNoteChange = useCallback((text: string) => {
     setNotes(prev => {
       const next = { ...prev, [monthKey]: text };
@@ -66,7 +66,7 @@ export default function WallCalendar() {
       return next;
     });
   }, [monthKey]);
- 
+
   return (
     <div
       className="min-h-screen flex items-start md:items-center justify-center px-4 py-6 md:py-10"
@@ -78,29 +78,39 @@ export default function WallCalendar() {
         `,
       }}
     >
-      {/* Calendar card — column on mobile, row on desktop */}
       <div
-        className="animate-fade-in w-full bg-white rounded-[20px] overflow-hidden"
+        className="animate-fade-in w-full bg-white"
         style={{
           maxWidth: "905px",
           display: "flex",
           flexDirection: "column",
+          borderRadius: "20px",
+          /* No overflow:hidden here — SpiralBinding handles its own top radius */
           boxShadow: "0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 64px rgba(0,0,0,0.10)",
         }}
       >
+        {/* SpiralBinding has its own border-radius top + overflow:hidden,
+            so it clips itself correctly without relying on the parent */}
+        <SpiralBinding />
+
         <style>{`
           @media (min-width: 768px) {
             .cal-card { flex-direction: row !important; }
           }
         `}</style>
- 
+
         <div
           className="cal-card"
-          style={{ display: "flex", flexDirection: "column", width: "100%", minHeight: 0 }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            minHeight: 0,
+            borderRadius: "0 0 20px 20px",
+            overflow: "hidden",
+          }}
         >
-          {/* Main calendar column — comes first in DOM so it's top on mobile */}
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden", paddingTop: "4px" }}>
-            <SpiralBinding />
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
             <HeroImage
               month={viewMonth}
               year={viewYear}
@@ -130,8 +140,7 @@ export default function WallCalendar() {
               onClear={() => setRange({ start: null, end: null })}
             />
           </div>
- 
-          {/* Notes panel — bottom on mobile, left sidebar on desktop */}
+
           <NotesPanel
             month={viewMonth}
             year={viewYear}
@@ -146,4 +155,3 @@ export default function WallCalendar() {
     </div>
   );
 }
- 
