@@ -49,69 +49,70 @@ export const MONTH_THEMES: MonthTheme[] = [
 // ─── Indian Holidays & Festivals (month-index is 0-based) ────────────────────
 
 export interface Holiday {
-  name: string;
-  type: "national" | "festival" | "regional";
+  name:      string;
+  shortName: string; // compact label for the calendar cell (≤8 chars)
+  type:      "national" | "festival" | "regional";
 }
 
 export const HOLIDAYS: Record<string, Holiday> = {
   // January
-  "0-1":  { name: "New Year's Day",       type: "national" },
-  "0-14": { name: "Makar Sankranti",       type: "festival" },
-  "0-15": { name: "Pongal",                type: "festival" },
-  "0-23": { name: "Netaji Subhas Chandra Bose Jayanti", type: "national" },
-  "0-26": { name: "Republic Day",          type: "national" },
+  "0-1":  { name: "New Year's Day",                        shortName: "New Year",  type: "national" },
+  "0-14": { name: "Makar Sankranti",                       shortName: "Sankranti", type: "festival" },
+  "0-15": { name: "Pongal",                                shortName: "Pongal",    type: "festival" },
+  "0-23": { name: "Netaji Subhas Chandra Bose Jayanti",   shortName: "Netaji",    type: "national" },
+  "0-26": { name: "Republic Day",                          shortName: "Republic",  type: "national" },
 
   // February
-  "1-14": { name: "Valentine's Day",       type: "regional" },
-  "1-19": { name: "Chhatrapati Shivaji Maharaj Jayanti", type: "regional" },
+  "1-14": { name: "Valentine's Day",                       shortName: "Valentine", type: "regional" },
+  "1-19": { name: "Chhatrapati Shivaji Maharaj Jayanti",  shortName: "Shivaji",   type: "regional" },
 
   // March
-  "2-8":  { name: "International Women's Day", type: "national" },
-  "2-25": { name: "Holi",                  type: "festival" },
+  "2-8":  { name: "International Women's Day",             shortName: "Women's",   type: "national" },
+  "2-25": { name: "Holi",                                  shortName: "Holi",      type: "festival" },
 
   // April
-  "3-6":  { name: "Ram Navami",            type: "festival" },
-  "3-14": { name: "Ambedkar Jayanti / Baisakhi", type: "national" },
-  "3-18": { name: "Good Friday",           type: "national" },
+  "3-6":  { name: "Ram Navami",                            shortName: "Ram Nav",   type: "festival" },
+  "3-14": { name: "Ambedkar Jayanti / Baisakhi",           shortName: "Baisakhi",  type: "national" },
+  "3-18": { name: "Good Friday",                           shortName: "Good Fri",  type: "national" },
 
   // May
-  "4-1":  { name: "Maharashtra Day / Labour Day", type: "national" },
-  "4-12": { name: "Buddha Purnima",        type: "festival" },
-  "4-23": { name: "Eid ul-Fitr",           type: "festival" },
+  "4-1":  { name: "Maharashtra Day / Labour Day",          shortName: "Labour",    type: "national" },
+  "4-12": { name: "Buddha Purnima",                        shortName: "Buddha",    type: "festival" },
+  "4-23": { name: "Eid ul-Fitr",                           shortName: "Eid Fitr",  type: "festival" },
 
   // June
-  "5-21": { name: "International Yoga Day", type: "national" },
+  "5-21": { name: "International Yoga Day",                shortName: "Yoga Day",  type: "national" },
 
   // July
-  "6-6":  { name: "Eid ul-Adha",           type: "festival" },
-  "6-17": { name: "Muharram",              type: "festival" },
+  "6-6":  { name: "Eid ul-Adha",                           shortName: "Eid Adha",  type: "festival" },
+  "6-17": { name: "Muharram",                              shortName: "Muharram",  type: "festival" },
 
   // August
-  "7-15": { name: "Independence Day",      type: "national" },
-  "7-16": { name: "Raksha Bandhan",        type: "festival" },
-  "7-27": { name: "Janmashtami",           type: "festival" },
+  "7-15": { name: "Independence Day",                      shortName: "Independ",  type: "national" },
+  "7-16": { name: "Raksha Bandhan",                        shortName: "Raksha",    type: "festival" },
+  "7-27": { name: "Janmashtami",                           shortName: "Janmast",   type: "festival" },
 
   // September
-  "8-5":  { name: "Teachers' Day",         type: "national" },
-  "8-10": { name: "Ganesh Chaturthi",      type: "festival" },
-  "8-16": { name: "Milad-un-Nabi",         type: "festival" },
+  "8-5":  { name: "Teachers' Day",                         shortName: "Teachers",  type: "national" },
+  "8-10": { name: "Ganesh Chaturthi",                      shortName: "Ganesh",    type: "festival" },
+  "8-16": { name: "Milad-un-Nabi",                         shortName: "Milad",     type: "festival" },
 
   // October
-  "9-2":  { name: "Gandhi Jayanti",        type: "national" },
-  "9-2_b":{ name: "Navratri begins",       type: "festival" },
-  "9-12": { name: "Dussehra",              type: "festival" },
-  "9-20": { name: "Dhanteras",             type: "festival" },
-  "9-22": { name: "Diwali",               type: "festival" },
-  "9-23": { name: "Govardhan Puja",        type: "festival" },
-  "9-24": { name: "Bhai Dooj",             type: "festival" },
+  "9-2":  { name: "Gandhi Jayanti",                        shortName: "Gandhi",    type: "national" },
+  "9-2_b":{ name: "Navratri begins",                       shortName: "Navratri",  type: "festival" },
+  "9-12": { name: "Dussehra",                              shortName: "Dussehra",  type: "festival" },
+  "9-20": { name: "Dhanteras",                             shortName: "Dhanters",  type: "festival" },
+  "9-22": { name: "Diwali",                                shortName: "Diwali",    type: "festival" },
+  "9-23": { name: "Govardhan Puja",                        shortName: "Govardan",  type: "festival" },
+  "9-24": { name: "Bhai Dooj",                             shortName: "Bhai Dj",   type: "festival" },
 
   // November
-  "10-5": { name: "Guru Nanak Jayanti",    type: "festival" },
-  "10-14":{ name: "Children's Day",        type: "national" },
+  "10-5": { name: "Guru Nanak Jayanti",                    shortName: "Guru Nak",  type: "festival" },
+  "10-14":{ name: "Children's Day",                        shortName: "Children",  type: "national" },
 
   // December
-  "11-25":{ name: "Christmas Day",         type: "festival" },
-  "11-31":{ name: "New Year's Eve",        type: "regional" },
+  "11-25":{ name: "Christmas Day",                         shortName: "Xmas",      type: "festival" },
+  "11-31":{ name: "New Year's Eve",                        shortName: "NYE",       type: "regional" },
 };
 
 // ─── Date math helpers ────────────────────────────────────────────────────────

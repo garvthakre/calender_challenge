@@ -46,7 +46,7 @@ export default function CalendarGrid({
       </div>
 
       {/* Day cells */}
-      <div className="grid grid-cols-7 gap-y-[3px]">
+      <div className="grid grid-cols-7 gap-y-[2px]">
         {cells.map((day, idx) => {
           if (day === null) {
             return <div key={`empty-${idx}`} style={{ aspectRatio: "1" }} />;
