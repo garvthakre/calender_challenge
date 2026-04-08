@@ -24,15 +24,15 @@ export default function CalendarGrid({
   const effectiveEnd = range.end ?? (hoverDay && range.start && hoverDay !== range.start ? hoverDay : null);
 
   return (
-    <div className="px-3 pb-3 pt-1 select-none" style={{ touchAction: "pan-y" }}>
+    <div className="px-2 sm:px-3 pb-3 pt-2 select-none" style={{ touchAction: "pan-y" }}>
       {/* Weekday header */}
-      <div className="grid grid-cols-7 mb-1">
+      <div className="grid grid-cols-7 mb-2 sm:mb-1">
         {WEEKDAY_LABELS.map((label) => (
           <div
             key={label}
-            className="flex items-center justify-center py-1"
+            className="flex items-center justify-center py-1 sm:py-1.5"
             style={{
-              fontSize: "10px",
+              fontSize: "clamp(8px, 2vw, 11px)",
               fontWeight: 600,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
@@ -45,7 +45,7 @@ export default function CalendarGrid({
       </div>
 
       {/* Day cells */}
-      <div className="grid grid-cols-7 gap-y-[3px]">
+      <div className="grid grid-cols-7 gap-y-[2px] sm:gap-y-[3px]">
         {cells.map((day, idx) => {
           if (day === null) {
             return <div key={`empty-${idx}`} style={{ aspectRatio: "1" }} />;

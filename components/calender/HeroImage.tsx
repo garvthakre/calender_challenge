@@ -16,7 +16,7 @@ export default function HeroImage({ month, year, accent, photoId, label }: HeroI
  
   return (
     /* hero wrap */
-    <div className="relative w-full overflow-hidden shrink-0 bg-[#c9d8ea]" style={{ aspectRatio: "16/7" }}>
+    <div className="relative w-full overflow-hidden shrink-0 bg-[#c9d8ea]" style={{ aspectRatio: "16/7", minHeight: "clamp(140px, 25vw, 200px)" }}>
       {!errored ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -39,15 +39,15 @@ export default function HeroImage({ month, year, accent, photoId, label }: HeroI
       />
  
       {/* month label - bottom right */}
-      <div className="absolute bottom-0 right-0 px-5 pb-[14px] pt-[14px] pl-14 text-right">
-        <div className="text-[10px] font-medium tracking-[3px] uppercase text-white/65 mb-[3px]">
+      <div className="absolute bottom-0 right-0 px-3 sm:px-5 pb-3 sm:pb-4 pt-3 sm:pt-4 sm:pl-14 text-right">
+        <div className="text-[8px] sm:text-[10px] font-medium tracking-[2px] sm:tracking-[3px] uppercase text-white/65 mb-1 sm:mb-[3px]">
           {label} · {year}
         </div>
         <div
           className="font-bold text-white leading-none tracking-[-0.5px]"
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(24px, 5vw, 40px)",
+            fontSize: "clamp(20px, 4.5vw, 40px)",
             textShadow: "0 2px 16px rgba(0,0,0,0.4)"
           }}
         >
@@ -57,8 +57,8 @@ export default function HeroImage({ month, year, accent, photoId, label }: HeroI
  
       {/* accent bar - bottom left */}
       <div
-        className="absolute bottom-0 left-0 w-[5px] h-[72px]"
-        style={{ background: accent }}
+        className="absolute bottom-0 left-0 h-16 sm:h-[72px]"
+        style={{ background: accent, width: "clamp(3px, 0.5vw, 5px)" }}
       />
     </div>
   );

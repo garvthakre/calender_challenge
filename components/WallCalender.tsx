@@ -69,7 +69,7 @@ export default function WallCalendar() {
 
   return (
     <div
-      className="min-h-screen flex items-start md:items-center justify-center px-4 py-6 md:py-10"
+      className="min-h-screen flex items-start md:items-center justify-center px-2 sm:px-3 md:px-4 py-4 sm:py-6 md:py-10"
       style={{
         background: `
           radial-gradient(ellipse 80% 50% at 20% 0%, rgba(29,78,216,0.06) 0%, transparent 60%),
@@ -84,7 +84,7 @@ export default function WallCalendar() {
           maxWidth: "905px",
           display: "flex",
           flexDirection: "column",
-          borderRadius: "20px",
+          borderRadius: "16px sm:rounded-[20px]",
           /* No overflow:hidden here — SpiralBinding handles its own top radius */
           boxShadow: "0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 64px rgba(0,0,0,0.10)",
         }}
@@ -106,7 +106,7 @@ export default function WallCalendar() {
             flexDirection: "column",
             width: "100%",
             minHeight: 0,
-            borderRadius: "0 0 20px 20px",
+            borderRadius: "0 0 clamp(12px, 3vw, 20px) clamp(12px, 3vw, 20px)",
             overflow: "hidden",
           }}
         >

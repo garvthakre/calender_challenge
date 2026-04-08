@@ -28,8 +28,8 @@ export default function NotesPanel({
         background: "#faf7f2",
         display: "flex",
         flexDirection: "column",
-        gap: "16px",
-        padding: "20px",
+        gap: "clamp(12px, 3vw, 16px)",
+        padding: "clamp(16px, 4vw, 20px)",
         flexShrink: 0,
         width: "100%",
         borderBottom: "1px solid #e2ddd6",
@@ -46,6 +46,8 @@ export default function NotesPanel({
             border-bottom: none !important;
             border-right: 1px solid #e2ddd6 !important;
             order: -1 !important;
+            padding: 20px !important;
+            gap: 16px !important;
           }
         }
       `}</style>
