@@ -16,10 +16,12 @@ export default function NotesPanel({
   const name = MONTH_NAMES[month];
  
   const legendItems = [
-    { bg: accent,        border: "none",                    label: "Selected day" },
+    { bg: accent,        border: "none",                    label: "Selected" },
     { bg: accentSoft,    border: `1.5px solid ${accent}55`, label: "In range" },
     { bg: "transparent", border: `2px solid ${accent}`,     label: "Today" },
-    { bg: "#b45309",     border: "none",                    label: "Holiday" },
+    { bg: "#dc2626",     border: "none",                    label: "National holiday" },
+    { bg: "#d97706",     border: "none",                    label: "Festival" },
+    { bg: "#b91c1c",     border: "none",                    label: "Weekend", isDash: true },
   ];
  
   return (
@@ -28,7 +30,7 @@ export default function NotesPanel({
         background: "#faf7f2",
         display: "flex",
         flexDirection: "column",
-        gap: "16px",
+        gap: "14px",
         padding: "20px",
         flexShrink: 0,
         width: "100%",
@@ -53,15 +55,9 @@ export default function NotesPanel({
       {/* Title */}
       <div style={{ flexShrink: 0 }}>
         <p style={{
-          fontSize: "20px",
-          fontWeight: 600,
-          color: "#1c1917",
-          lineHeight: 1,
-          fontFamily: "var(--font-display)",
-          margin: 0,
-        }}>
-          Notes
-        </p>
+          fontSize: "20px", fontWeight: 600, color: "#1c1917",
+          lineHeight: 1, fontFamily: "var(--font-display)", margin: 0,
+        }}>Notes</p>
         <p style={{ fontSize: "11px", color: "#a8a29e", marginTop: "4px", letterSpacing: "0.05em" }}>
           {name} {year}
         </p>
@@ -71,13 +67,9 @@ export default function NotesPanel({
       {/* Range pill */}
       {range.start && (
         <div style={{
-          flexShrink: 0,
-          padding: "10px 12px",
-          borderRadius: "12px",
-          fontSize: "12px",
-          lineHeight: 1.6,
-          borderLeft: `3px solid ${accent}`,
-          background: accentSoft,
+          flexShrink: 0, padding: "10px 12px", borderRadius: "12px",
+          fontSize: "12px", lineHeight: 1.6,
+          borderLeft: `3px solid ${accent}`, background: accentSoft,
         }}>
           <span style={{ fontWeight: 600, display: "block", color: accent }}>
             {name} {range.start}{range.end ? ` – ${range.end}` : ""}
@@ -94,19 +86,11 @@ export default function NotesPanel({
       <div style={{ display: "flex", flexDirection: "column", gap: "6px", flex: 1, minHeight: 0 }}>
         <textarea
           style={{
-            width: "100%",
-            resize: "none",
-            borderRadius: "10px",
-            padding: "10px 12px",
-            fontSize: "13px",
-            lineHeight: 1.7,
-            color: "#1c1917",
-            background: "white",
-            outline: "none",
-            border: "1.5px solid #e2ddd6",
-            fontFamily: "var(--font-body)",
-            minHeight: "110px",
-            flex: "1 1 auto",
+            width: "100%", resize: "none", borderRadius: "10px",
+            padding: "10px 12px", fontSize: "13px", lineHeight: 1.7,
+            color: "#1c1917", background: "white", outline: "none",
+            border: "1.5px solid #e2ddd6", fontFamily: "var(--font-body)",
+            minHeight: "100px", flex: "1 1 auto",
             transition: "border-color 0.15s, box-shadow 0.15s",
             boxSizing: "border-box",
           }}
@@ -136,18 +120,22 @@ export default function NotesPanel({
         <p style={{ fontSize: "10px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#a8a29e", marginBottom: "10px" }}>
           Legend
         </p>
-        <div style={{ display: "flex", flexDirection: "column", gap: "9px" }}>
-          {legendItems.map(({ bg, border, label }) => (
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          {legendItems.map(({ bg, border, label, isDash }) => (
             <div key={label} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <span style={{
-                flexShrink: 0,
-                width: "14px",
-                height: "14px",
-                borderRadius: "50%",
-                background: bg,
-                border,
-                display: "inline-block",
-              }} />
+              {isDash ? (
+                // Weekend shows as a colored underline dash
+                <span style={{
+                  flexShrink: 0, width: "14px", height: "3px",
+                  borderRadius: "2px", background: bg, display: "inline-block",
+                }} />
+              ) : (
+                <span style={{
+                  flexShrink: 0, width: "14px", height: "14px",
+                  borderRadius: "50%", background: bg, border,
+                  display: "inline-block",
+                }} />
+              )}
               <span style={{ fontSize: "12px", color: "#57534e", lineHeight: 1 }}>{label}</span>
             </div>
           ))}

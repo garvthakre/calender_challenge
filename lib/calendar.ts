@@ -23,6 +23,12 @@ export const MONTH_NAMES = [
   "September","October","November","December",
 ] as const;
 
+export const SHORT_MONTH_NAMES = [
+  "Jan","Feb","Mar","Apr",
+  "May","Jun","Jul","Aug",
+  "Sep","Oct","Nov","Dec",
+] as const;
+
 // ─── Month themes ─────────────────────────────────────────────────────────────
 
 export const MONTH_THEMES: MonthTheme[] = [
@@ -40,19 +46,72 @@ export const MONTH_THEMES: MonthTheme[] = [
   { accent:"#1e40af", accentSoft:"#dbeafe", keyword:"ice frost",       label:"Winter",      photoId:"photo-1491002052546-bf38f186af56" },
 ];
 
-// ─── Holidays ─────────────────────────────────────────────────────────────────
+// ─── Indian Holidays & Festivals (month-index is 0-based) ────────────────────
 
-export const HOLIDAYS: Record<string, string> = {
-  "0-1":  "New Year's Day",
-  "0-26": "Republic Day",
-  "2-25": "Holi",
-  "3-14": "Ambedkar Jayanti",
-  "7-15": "Independence Day",
-  "9-2":  "Gandhi Jayanti",
-  "9-24": "Dussehra",
-  "10-14":"Diwali",
-  "11-25":"Christmas Day",
-  "11-31":"New Year's Eve",
+export interface Holiday {
+  name: string;
+  type: "national" | "festival" | "regional";
+}
+
+export const HOLIDAYS: Record<string, Holiday> = {
+  // January
+  "0-1":  { name: "New Year's Day",       type: "national" },
+  "0-14": { name: "Makar Sankranti",       type: "festival" },
+  "0-15": { name: "Pongal",                type: "festival" },
+  "0-23": { name: "Netaji Subhas Chandra Bose Jayanti", type: "national" },
+  "0-26": { name: "Republic Day",          type: "national" },
+
+  // February
+  "1-14": { name: "Valentine's Day",       type: "regional" },
+  "1-19": { name: "Chhatrapati Shivaji Maharaj Jayanti", type: "regional" },
+
+  // March
+  "2-8":  { name: "International Women's Day", type: "national" },
+  "2-25": { name: "Holi",                  type: "festival" },
+
+  // April
+  "3-6":  { name: "Ram Navami",            type: "festival" },
+  "3-14": { name: "Ambedkar Jayanti / Baisakhi", type: "national" },
+  "3-18": { name: "Good Friday",           type: "national" },
+
+  // May
+  "4-1":  { name: "Maharashtra Day / Labour Day", type: "national" },
+  "4-12": { name: "Buddha Purnima",        type: "festival" },
+  "4-23": { name: "Eid ul-Fitr",           type: "festival" },
+
+  // June
+  "5-21": { name: "International Yoga Day", type: "national" },
+
+  // July
+  "6-6":  { name: "Eid ul-Adha",           type: "festival" },
+  "6-17": { name: "Muharram",              type: "festival" },
+
+  // August
+  "7-15": { name: "Independence Day",      type: "national" },
+  "7-16": { name: "Raksha Bandhan",        type: "festival" },
+  "7-27": { name: "Janmashtami",           type: "festival" },
+
+  // September
+  "8-5":  { name: "Teachers' Day",         type: "national" },
+  "8-10": { name: "Ganesh Chaturthi",      type: "festival" },
+  "8-16": { name: "Milad-un-Nabi",         type: "festival" },
+
+  // October
+  "9-2":  { name: "Gandhi Jayanti",        type: "national" },
+  "9-2_b":{ name: "Navratri begins",       type: "festival" },
+  "9-12": { name: "Dussehra",              type: "festival" },
+  "9-20": { name: "Dhanteras",             type: "festival" },
+  "9-22": { name: "Diwali",               type: "festival" },
+  "9-23": { name: "Govardhan Puja",        type: "festival" },
+  "9-24": { name: "Bhai Dooj",             type: "festival" },
+
+  // November
+  "10-5": { name: "Guru Nanak Jayanti",    type: "festival" },
+  "10-14":{ name: "Children's Day",        type: "national" },
+
+  // December
+  "11-25":{ name: "Christmas Day",         type: "festival" },
+  "11-31":{ name: "New Year's Eve",        type: "regional" },
 };
 
 // ─── Date math helpers ────────────────────────────────────────────────────────

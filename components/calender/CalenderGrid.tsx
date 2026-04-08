@@ -16,10 +16,9 @@ interface CalendarGridProps {
 export default function CalendarGrid({
   year, month, today, range, hoverDay, onDayClick, onDayHover,
 }: CalendarGridProps) {
-  const cells   = buildMonthCells(year, month);
-  const todayD  = today.getFullYear() === year && today.getMonth() === month
-    ? today.getDate()
-    : -1;
+  const cells  = buildMonthCells(year, month);
+  const todayD = today.getFullYear() === year && today.getMonth() === month
+    ? today.getDate() : -1;
 
   const effectiveEnd = range.end ?? (hoverDay && range.start && hoverDay !== range.start ? hoverDay : null);
 
@@ -36,7 +35,9 @@ export default function CalendarGrid({
               fontWeight: 600,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
-              color: label === "Sat" || label === "Sun" ? "#b91c1c" : "#a8a29e",
+              color: label === "Sat" || label === "Sun"
+                ? "#b91c1c"
+                : "#a8a29e",
             }}
           >
             {label}
@@ -54,8 +55,7 @@ export default function CalendarGrid({
           const holidayKey = `${month}-${day}`;
           const holiday    = HOLIDAYS[holidayKey] ?? null;
 
-          // Day of week (0=Mon…6=Sun)
-          const dow = (idx) % 7;
+          const dow       = idx % 7;
           const isWeekend = dow === 5 || dow === 6;
 
           const isStart   = range.start === day;
