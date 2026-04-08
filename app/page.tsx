@@ -1,7 +1,5 @@
-import Image from "next/image";
+import WallCalendar from "../components/Calender";
 
 export default function Home() {
-  return (
-     <div>hello world</div>
-  );
+  return <WallCalendar />;
 }
