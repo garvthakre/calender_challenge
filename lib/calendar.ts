@@ -9,42 +9,38 @@ export interface MonthTheme {
   accent:     string;
   accentSoft: string;
   keyword:    string;
-  label:      string; // descriptive season/mood label
+  label:      string;
+  photoId:    string; // Unsplash photo ID
 }
 
-// ─── Date Constants ───────────────────────────────────────────────────────────
+// ─── Calendar labels ──────────────────────────────────────────────────────────
 
 export const WEEKDAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
 
 export const MONTH_NAMES = [
-  "January", "February", "March",    "April",
-  "May",     "June",     "July",     "August",
-  "September","October", "November", "December",
+  "January","February","March","April",
+  "May","June","July","August",
+  "September","October","November","December",
 ] as const;
 
-export const SHORT_MONTH_NAMES = [
-  "Jan","Feb","Mar","Apr","May","Jun",
-  "Jul","Aug","Sep","Oct","Nov","Dec",
-] as const;
-
-// ─── Month Themes ─────────────────────────────────────────────────────────────
+// ─── Month themes ─────────────────────────────────────────────────────────────
 
 export const MONTH_THEMES: MonthTheme[] = [
-  { accent: "#1d4ed8", accentSoft: "#dbeafe", keyword: "winter+snow+mountain",   label: "Winter" },
-  { accent: "#7c3aed", accentSoft: "#ede9fe", keyword: "purple+blossom+spring",  label: "Early Spring" },
-  { accent: "#059669", accentSoft: "#d1fae5", keyword: "spring+green+meadow",    label: "Spring" },
-  { accent: "#d97706", accentSoft: "#fef3c7", keyword: "golden+sunset+fields",   label: "Late Spring" },
-  { accent: "#dc2626", accentSoft: "#fee2e2", keyword: "red+roses+garden",       label: "Bloom" },
-  { accent: "#0891b2", accentSoft: "#cffafe", keyword: "ocean+beach+summer",     label: "Summer" },
-  { accent: "#b45309", accentSoft: "#fef3c7", keyword: "desert+canyon+arid",     label: "Midsummer" },
-  { accent: "#4f46e5", accentSoft: "#e0e7ff", keyword: "lavender+purple+field",  label: "Late Summer" },
-  { accent: "#b45309", accentSoft: "#fef3c7", keyword: "autumn+leaves+forest",   label: "Autumn" },
-  { accent: "#c2410c", accentSoft: "#ffedd5", keyword: "harvest+orange+fall",    label: "Deep Autumn" },
-  { accent: "#475569", accentSoft: "#f1f5f9", keyword: "fog+misty+grey+forest",  label: "Late Autumn" },
-  { accent: "#1e40af", accentSoft: "#dbeafe", keyword: "ice+frost+crystal+blue", label: "Winter" },
+  { accent:"#1d4ed8", accentSoft:"#dbeafe", keyword:"winter snow",     label:"Winter",      photoId:"photo-1519681393784-d120267933ba" },
+  { accent:"#7c3aed", accentSoft:"#ede9fe", keyword:"cherry blossom",  label:"Early Spring", photoId:"photo-1458682625221-3a45f8a844c7" },
+  { accent:"#059669", accentSoft:"#d1fae5", keyword:"spring meadow",   label:"Spring",      photoId:"photo-1462275646964-a0e3386b89fa" },
+  { accent:"#b45309", accentSoft:"#fef3c7", keyword:"golden fields",   label:"Late Spring", photoId:"photo-1504701954957-2010ec3bcec1" },
+  { accent:"#dc2626", accentSoft:"#fee2e2", keyword:"red roses",       label:"Bloom",       photoId:"photo-1490750967868-88df5691cc0e" },
+  { accent:"#0891b2", accentSoft:"#cffafe", keyword:"ocean beach",     label:"Summer",      photoId:"photo-1507525428034-b723cf961d3e" },
+  { accent:"#b45309", accentSoft:"#fef3c7", keyword:"desert canyon",   label:"Midsummer",   photoId:"photo-1469854523086-cc02fe5d8800" },
+  { accent:"#4f46e5", accentSoft:"#e0e7ff", keyword:"lavender field",  label:"Late Summer", photoId:"photo-1499002238440-d264edd596ec" },
+  { accent:"#92400e", accentSoft:"#fef3c7", keyword:"autumn leaves",   label:"Autumn",      photoId:"photo-1508739773434-c26b3d09e071" },
+  { accent:"#c2410c", accentSoft:"#ffedd5", keyword:"harvest fall",    label:"Deep Autumn", photoId:"photo-1508193638397-1c4234db14d8" },
+  { accent:"#475569", accentSoft:"#f1f5f9", keyword:"foggy forest",    label:"Late Autumn", photoId:"photo-1448375240586-882707db888b" },
+  { accent:"#1e40af", accentSoft:"#dbeafe", keyword:"ice frost",       label:"Winter",      photoId:"photo-1491002052546-bf38f186af56" },
 ];
 
-// ─── Holidays (month 0-indexed) ───────────────────────────────────────────────
+// ─── Holidays ─────────────────────────────────────────────────────────────────
 
 export const HOLIDAYS: Record<string, string> = {
   "0-1":  "New Year's Day",
@@ -55,11 +51,11 @@ export const HOLIDAYS: Record<string, string> = {
   "9-2":  "Gandhi Jayanti",
   "9-24": "Dussehra",
   "10-14":"Diwali",
-  "11-25":"Christmas",
+  "11-25":"Christmas Day",
   "11-31":"New Year's Eve",
 };
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// ─── Date math helpers ────────────────────────────────────────────────────────
 
 export function getDaysInMonth(year: number, month: number): number {
   return new Date(year, month + 1, 0).getDate();
@@ -67,7 +63,7 @@ export function getDaysInMonth(year: number, month: number): number {
 
 /** Returns 0=Mon … 6=Sun */
 export function getFirstWeekday(year: number, month: number): number {
-  const d = new Date(year, month, 1).getDay(); // 0=Sun
+  const d = new Date(year, month, 1).getDay(); // JS: 0=Sun
   return d === 0 ? 6 : d - 1;
 }
 
@@ -75,17 +71,13 @@ export function formatMonthKey(year: number, month: number): string {
   return `${year}-${String(month + 1).padStart(2, "0")}`;
 }
 
-export function isSameDay(year: number, month: number, day: number, ref: Date): boolean {
-  return ref.getFullYear() === year && ref.getMonth() === month && ref.getDate() === day;
-}
-
-/** Build the flat cell array for a month grid (null = empty leading/trailing cell) */
+/** Flat array of day numbers (null = empty cell) for a 7-column grid */
 export function buildMonthCells(year: number, month: number): (number | null)[] {
-  const first = getFirstWeekday(year, month);
-  const days  = getDaysInMonth(year, month);
+  const leading = getFirstWeekday(year, month);
+  const total   = getDaysInMonth(year, month);
   const cells: (number | null)[] = [
-    ...Array(first).fill(null),
-    ...Array.from({ length: days }, (_, i) => i + 1),
+    ...Array(leading).fill(null),
+    ...Array.from({ length: total }, (_, i) => i + 1),
   ];
   while (cells.length % 7 !== 0) cells.push(null);
   return cells;

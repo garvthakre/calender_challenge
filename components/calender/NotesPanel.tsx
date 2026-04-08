@@ -1,75 +1,75 @@
 import { MONTH_NAMES, DateRange } from "@/lib/calendar";
-
-interface RangeDisplayProps {
-  range:   DateRange;
-  month:   number;
-  year:    number;
-  accent:  string;
-  accentSoft: string;
-  onClear: () => void;
+interface NotesPanelProps {
+  month:        number;
+  year:         number;
+  accent:       string;
+  accentSoft:   string;
+  note:         string;
+  range:        DateRange;
+  onNoteChange: (t: string) => void;
 }
-
-export default function RangeDisplay({ range, month, year, accent, accentSoft, onClear }: RangeDisplayProps) {
-  if (!range.start && !range.end) return null;
-
-  const monthName = MONTH_NAMES[month];
-
-  const label = range.start && range.end
-    ? `${monthName} ${range.start} – ${range.end}, ${year}`
-    : range.start
-    ? `From ${monthName} ${range.start}…`
-    : null;
-
-  const daysCount = range.start && range.end ? range.end - range.start + 1 : null;
-
+ 
+export default function NotesPanel({
+  month, year, accent, accentSoft, note, range, onNoteChange,
+}: NotesPanelProps) {
+  const name = MONTH_NAMES[month];
+ 
   return (
-    <div style={{
-      margin: "0 16px 14px",
-      padding: "10px 14px",
-      background: accentSoft,
-      borderRadius: "10px",
-      border: `1px solid ${accent}30`,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: "8px",
-      animation: "fadeUp 0.2s ease",
-    }}>
+    <aside className="notes-panel">
+      {/* Title */}
       <div>
-        <div style={{ fontSize: "11px", color: accent, fontWeight: 600, letterSpacing: "0.5px", textTransform: "uppercase", marginBottom: "2px" }}>
-          Selected Range
-        </div>
-        <div style={{ fontSize: "13px", color: "var(--ink)", fontWeight: 500 }}>
-          {label}
-        </div>
-        {daysCount && (
-          <div style={{ fontSize: "11px", color: "var(--ink-muted)", marginTop: "1px" }}>
-            {daysCount} {daysCount === 1 ? "day" : "days"}
-          </div>
-        )}
+        <div className="notes-title">Notes</div>
+        <div className="notes-sub">{name} {year}</div>
+        <div className="notes-rule" style={{ background: accent }} />
       </div>
-
-      <button
-        onClick={onClear}
-        style={{
-          flexShrink: 0,
-          width: "26px",
-          height: "26px",
-          borderRadius: "50%",
-          border: `1px solid ${accent}40`,
-          background: "transparent",
-          color: accent,
-          fontSize: "16px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          lineHeight: 1,
-        }}
-        aria-label="Clear selection"
-        title="Clear selection"
-      >
-        ×
-      </button>
-    </div>
+ 
+      {/* Range pill */}
+      {range.start && (
+        <div className="notes-range-pill" style={{ borderLeftColor: accent, background: accentSoft }}>
+          <span style={{ fontWeight: 600, color: accent }}>
+            {range.start}{range.end ? ` – ${range.end}` : ""}
+          </span>{" "}{name}
+          {range.end && (
+            <span style={{ display: "block", fontSize: "11px", color: "var(--ink-muted)", marginTop: "2px" }}>
+              {range.end - range.start + 1} days
+            </span>
+          )}
+        </div>
+      )}
+ 
+      {/* Textarea */}
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
+        <textarea
+          className="notes-textarea"
+          value={note}
+          onChange={e => onNoteChange(e.target.value)}
+          placeholder={`Notes for ${name}…`}
+          style={{ flex: 1 }}
+        />
+        <div className="notes-footer">
+          <span>
+            <span className="notes-saved-dot" />
+            Auto-saved
+          </span>
+          <span>{note.length} chars</span>
+        </div>
+      </div>
+ 
+      {/* Legend */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+        <div className="notes-legend-title">Legend</div>
+        {[
+          { bg: accent,       border: "none",                          label: "Selected day" },
+          { bg: accentSoft,   border: `1.5px solid ${accent}55`,      label: "Date range" },
+          { bg: "transparent",border: `2px solid ${accent}`,          label: "Today" },
+          { bg: "#b45309",    border: "none",                          label: "Holiday" },
+        ].map(({ bg, border, label }) => (
+          <div key={label} className="notes-legend-item">
+            <span className="legend-swatch" style={{ background: bg, border }} />
+            {label}
+          </div>
+        ))}
+      </div>
+    </aside>
   );
 }
