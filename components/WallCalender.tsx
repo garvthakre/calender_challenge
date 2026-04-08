@@ -84,8 +84,8 @@ export default function WallCalendar() {
           maxWidth: "905px",
           display: "flex",
           flexDirection: "column",
-          borderRadius: "16px sm:rounded-[20px]",
-          /* No overflow:hidden here — SpiralBinding handles its own top radius */
+          borderRadius: "clamp(12px, 3vw, 20px)",
+          overflow: "hidden",
           boxShadow: "0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.08), 0 24px 64px rgba(0,0,0,0.10)",
         }}
       >
@@ -106,7 +106,6 @@ export default function WallCalendar() {
             flexDirection: "column",
             width: "100%",
             minHeight: 0,
-            borderRadius: "0 0 clamp(12px, 3vw, 20px) clamp(12px, 3vw, 20px)",
             overflow: "hidden",
           }}
         >

@@ -11,6 +11,7 @@ export default function SpiralBinding() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
+        borderRadius: "clamp(12px, 3vw, 20px) clamp(12px, 3vw, 20px) 0 0",
       }}
     >
       {/* Horizontal wire running the full width */}
