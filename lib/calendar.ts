@@ -44,38 +44,44 @@ export const MONTH_THEMES: MonthTheme[] = [
 
 export const HOLIDAYS: Record<string, string> = {
   // January
-  "0-1":  "New Year's Day",
-  "0-26": "Republic Day",
+  "0-1":   "New Year's Day",
+  "0-26":  "Republic Day",
   // February
-  "1-14": "Valentine's Day",
+  "1-12":  "Maha Shivaratri",
   // March
-  "2-8":  "International Women's Day",
-  "2-25": "Holi",
+  "2-8":   "Maha Shivaratri",
+  "2-25":  "Holi",
+  "2-29":  "Good Friday",
   // April
-  "3-14": "Ambedkar Jayanti",
-  "3-17": "Ram Navami",
+  "3-11":  "Eid ul-Fitr",
+  "3-14":  "Ambedkar Jayanti",
+  "3-17":  "Ram Navami",
+  "3-21":  "Mahavir Jayanti",
   // May
-  "4-1":  "Labour Day",
+  "4-1":   "Labour Day",
+  "4-23":  "Buddha Purnima",
   // June
-  "5-21": "Summer Solstice",
+  "5-17":  "Eid ul-Adha",
   // July
-  "6-15": "Independence Day",
+  "6-17":  "Muharram",
   // August
-  "7-15": "Independence Day",
-  "7-26": "Janmashtami",
+  "7-15":  "Independence Day",
+  "7-26":  "Janmashtami",
   // September
-  "8-16": "Milad un-Nabi",
+  "8-16":  "Milad un-Nabi (Eid-e-Milad-un-Nabi)",
   // October
-  "9-2":  "Gandhi Jayanti",
-  "9-24": "Dussehra",
-  "9-31": "Halloween",
+  "9-2":   "Gandhi Jayanti",
+  "9-12":  "Dussehra",
+  "9-24":  "Diwali (Lakshmi Puja)",
   // November
-  "10-1":  "Diwali (Lakshmi Puja)",
-  "10-14": "Diwali",
-  "10-31": "Thanksgiving",
+  "10-1":  "Diwali",
+  "10-3":  "Govardhan Puja",
+  "10-4":  "Bhai Dooj",
+  "10-8":  "Guru Nanak Jayanti",
+  "10-25": "Christmas",
   // December
   "11-25": "Christmas Day",
-  "11-31": "New Year's Eve",
+  "11-26": "Maha Navami",
 };
 
 // ─── Date math helpers ────────────────────────────────────────────────────────
