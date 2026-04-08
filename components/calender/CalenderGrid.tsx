@@ -30,13 +30,13 @@ export default function CalendarGrid({
         {WEEKDAY_LABELS.map((label) => (
           <div
             key={label}
-            className="flex items-center justify-center py-1 sm:py-1.5"
+            className="flex items-center justify-center py-1 sm:py-1.5 transition-colors duration-200"
             style={{
               fontSize: "clamp(8px, 2vw, 11px)",
               fontWeight: 600,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
-              color: label === "Sat" || label === "Sun" ? "#b91c1c" : "#a8a29e",
+              color: label === "Sat" || label === "Sun" ? "#dc2626" : "#a8a29e",
             }}
           >
             {label}

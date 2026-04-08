@@ -18,6 +18,7 @@ export default function WallCalendar() {
   const [range,     setRange]     = useState<DateRange>({ start: null, end: null });
   const [hoverDay,  setHoverDay]  = useState<number | null>(null);
   const [notes,     setNotes]     = useState<Record<string, string>>({});
+  const [nextDirection, setNextDirection] = useState<"next" | "prev">("next");
 
   const theme    = MONTH_THEMES[viewMonth];
   const monthKey = formatMonthKey(viewYear, viewMonth);
@@ -35,6 +36,7 @@ export default function WallCalendar() {
   }, [theme]);
 
   const prevMonth = useCallback(() => {
+    setNextDirection("prev");
     setRange({ start: null, end: null });
     setViewMonth(m => {
       if (m === 0) { setViewYear(y => y - 1); return 11; }
@@ -43,12 +45,20 @@ export default function WallCalendar() {
   }, []);
 
   const nextMonth = useCallback(() => {
+    setNextDirection("next");
     setRange({ start: null, end: null });
     setViewMonth(m => {
       if (m === 11) { setViewYear(y => y + 1); return 0; }
       return m + 1;
     });
   }, []);
+
+  const goToToday = useCallback(() => {
+    setNextDirection("next");
+    setRange({ start: null, end: null });
+    setViewMonth(today.getMonth());
+    setViewYear(today.getFullYear());
+  }, [today]);
 
   const handleDayClick = useCallback((day: number) => {
     setRange(prev => {
@@ -109,7 +119,16 @@ export default function WallCalendar() {
             overflow: "hidden",
           }}
         >
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
+          <div 
+            style={{ 
+              flex: 1, 
+              display: "flex", 
+              flexDirection: "column", 
+              minWidth: 0, 
+              overflow: "hidden",
+            }}
+            className={nextDirection === "next" ? "animate-slide-in-right" : "animate-slide-in-left"}
+          >
             <HeroImage
               month={viewMonth}
               year={viewYear}
@@ -122,6 +141,7 @@ export default function WallCalendar() {
               year={viewYear}
               onPrev={prevMonth}
               onNext={nextMonth}
+              onToday={goToToday}
             />
             <CalendarGrid
               year={viewYear}

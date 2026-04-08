@@ -22,12 +22,12 @@ export default function HeroImage({ month, year, accent, photoId, label }: HeroI
         <img
           src={src}
           alt={`${MONTH_NAMES[month]} scenery`}
-          className="w-full h-full object-cover block transition-transform duration-[600ms] ease-in-out"
+          className="w-full h-full object-cover block transition-all duration-700 ease-in-out animate-fade-in"
           onError={() => setErrored(true)}
         />
       ) : (
         <div
-          className="w-full h-full"
+          className="w-full h-full animate-fade-in"
           style={{ background: `linear-gradient(135deg, ${accent}cc 0%, ${accent}44 100%)` }}
         />
       )}

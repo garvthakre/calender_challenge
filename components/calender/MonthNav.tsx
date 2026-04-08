@@ -5,24 +5,39 @@ interface MonthNavProps {
   year:   number;
   onPrev: () => void;
   onNext: () => void;
+  onToday?: () => void;
 }
 
-export default function MonthNav({ month, year, onPrev, onNext }: MonthNavProps) {
+export default function MonthNav({ month, year, onPrev, onNext, onToday }: MonthNavProps) {
+  const today = new Date();
+  const isToday = today.getMonth() === month && today.getFullYear() === year;
+
   return (
-    <div className="flex items-center justify-between px-5 py-3 border-b border-[#f0ece6] shrink-0">
+    <div className="flex items-center justify-between px-5 py-3 border-b border-[#f0ece6] shrink-0 gap-3">
       <NavBtn onClick={onPrev} label="Previous month">‹</NavBtn>
 
-      <div className="text-center">
+      <div className="text-center flex-1">
         <div
-          className="text-[22px] font-semibold text-[#1c1917] tracking-[-0.3px] leading-[1.1]"
+          className="text-[22px] font-semibold text-[#1c1917] tracking-[-0.3px] leading-[1.1] transition-all duration-300"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {MONTH_NAMES[month]}
         </div>
-        <div className="text-[11px] font-normal text-[#a8a29e] tracking-[2px] mt-[1px]">
+        <div className="text-[11px] font-normal text-[#a8a29e] tracking-[2px] mt-[1px] transition-colors duration-300">
           {year}
         </div>
       </div>
+
+      {onToday && !isToday && (
+        <button
+          onClick={onToday}
+          className="px-3 py-1.5 text-[11px] font-medium rounded-full border border-[var(--color-accent)] text-[var(--color-accent)] transition-all duration-200 hover:bg-[var(--color-accent-soft)}"
+          title="Jump to today"
+          style={{ whiteSpace: "nowrap" }}
+        >
+          Today
+        </button>
+      )}
 
       <NavBtn onClick={onNext} label="Next month">›</NavBtn>
     </div>
@@ -36,8 +51,8 @@ function NavBtn({ onClick, label, children }: { onClick: () => void; label: stri
         w-12 h-12 rounded-full
         border-[1.5px] border-[#e2ddd6] bg-white text-[#57534e] text-2xl
         flex items-center justify-center shrink-0
-        transition-all duration-150
-        hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent-soft)]
+        transition-all duration-200 ease-in-out
+        hover:border-[var(--color-accent)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent-soft)] hover:shadow-md
         active:scale-90
         select-none touch-manipulation
         cursor-pointer

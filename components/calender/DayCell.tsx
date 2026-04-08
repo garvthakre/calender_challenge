@@ -29,10 +29,14 @@ export default function DayCell({
   else if (isInRange) bgColor = "var(--color-accent-soft)";
 
   // Text color
-  let textColor = isWeekend ? "#b91c1c" : "#1c1917";
+  let textColor = isWeekend ? "#dc2626" : "#1c1917";
   if (isSelected)    textColor = "#fff";
   else if (isInRange) textColor = "var(--color-accent)";
   else if (isToday)  textColor = "var(--color-accent)";
+  
+  // Light background for weekends
+  let weekendBg = isWeekend && !isSelected && !isInRange ? "rgba(220, 38, 38, 0.03)" : "transparent";
+  if (isSelected || isInRange) weekendBg = "transparent";
 
   const fontWeight = isSelected ? "700" : isInRange ? "500" : isToday ? "600" : "400";
 
@@ -62,7 +66,7 @@ export default function DayCell({
         className={`relative flex flex-col items-center justify-center cursor-pointer select-none transition-all duration-[120ms] ease-in-out active:scale-[0.85] ${hoverClass}`}
         style={{
           aspectRatio: "1",
-          background: bgColor,
+          background: bgColor || weekendBg,
           borderRadius,
           outline,
           outlineOffset,
@@ -88,10 +92,46 @@ export default function DayCell({
         </span>
 
         {holiday && (
-          <span
-            className="absolute bottom-[3px] w-[3.5px] h-[3.5px] rounded-full pointer-events-none"
-            style={{ background: isSelected ? "rgba(255,255,255,0.8)" : "#b45309" }}
-          />
+          <>
+            <style>{`
+              .holiday-tooltip {
+                position: absolute;
+                bottom: 110%;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.85);
+                color: white;
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 10px;
+                white-space: nowrap;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.2s;
+                z-index: 50;
+                margin-bottom: 4px;
+              }
+              .day-cell-hoverable:hover .holiday-tooltip,
+              [role="button"]:hover .holiday-tooltip {
+                opacity: 1;
+              }
+            `}</style>
+            <span className="holiday-tooltip">
+              {holiday}
+            </span>
+            <span
+              className="absolute bottom-[4px] flex items-center justify-center pointer-events-none"
+              style={{}}
+            >
+              <span
+                className="w-[4.5px] h-[4.5px] rounded-full animate-pulse-subtle"
+                style={{ 
+                  background: isSelected ? "rgba(255,255,255,0.95)" : "#b45309",
+                  boxShadow: isSelected ? "0 0 0 2.5px rgba(180,83,9,0.2)" : "0 0 0 2.5px rgba(180,83,9,0.12)"
+                }}
+              />
+            </span>
+          </>
         )}
       </div>
     </>
