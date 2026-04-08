@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { MONTH_THEMES, DateRange, formatMonthKey } from "@/lib/calendar";
+import { playFlipSound, playPopSound } from "@/lib/audio";
 
 import SpiralBinding  from "./calender/SpiralBinding";
 import HeroImage      from "./calender/HeroImage";
@@ -60,6 +61,9 @@ export default function WallCalendar() {
 
     setAnimDir(dir);
     setIsFlipping(true);
+    
+    // Play the tactile paper flip sound
+    playFlipSound();
 
     // After halfway through (300ms), update the live month
     flipTimeoutRef.current = setTimeout(() => {
@@ -88,6 +92,9 @@ export default function WallCalendar() {
   }, [viewMonth, viewYear, triggerFlip]);
 
   const handleDayClick = useCallback((day: number) => {
+    // Play the tactile pop sound
+    playPopSound();
+
     setRange(prev => {
       if (prev.start === null)                     return { start: day, end: null };
       if (prev.end !== null || prev.start === day) return { start: null, end: null };
