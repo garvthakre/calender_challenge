@@ -10,7 +10,7 @@ export interface MonthTheme {
   accentSoft: string;
   keyword:    string;
   label:      string;
-  photoId:    string; // Unsplash photo ID
+  imageUrl:   string; // full image URL (picsum.photos)
 }
 
 // ─── Calendar labels ──────────────────────────────────────────────────────────
@@ -32,18 +32,30 @@ export const SHORT_MONTH_NAMES = [
 // ─── Month themes ─────────────────────────────────────────────────────────────
 
 export const MONTH_THEMES: MonthTheme[] = [
-  { accent:"#1d4ed8", accentSoft:"#dbeafe", keyword:"winter snow",     label:"Winter",      photoId:"photo-1519681393784-d120267933ba" },
-  { accent:"#7c3aed", accentSoft:"#ede9fe", keyword:"cherry blossom",  label:"Early Spring", photoId:"photo-1458682625221-3a45f8a844c7" },
-  { accent:"#059669", accentSoft:"#d1fae5", keyword:"spring meadow",   label:"Spring",      photoId:"photo-1462275646964-a0e3386b89fa" },
-  { accent:"#b45309", accentSoft:"#fef3c7", keyword:"golden fields",   label:"Late Spring", photoId:"photo-1504701954957-2010ec3bcec1" },
-  { accent:"#dc2626", accentSoft:"#fee2e2", keyword:"red roses",       label:"Bloom",       photoId:"photo-1490750967868-88df5691cc0e" },
-  { accent:"#0891b2", accentSoft:"#cffafe", keyword:"ocean beach",     label:"Summer",      photoId:"photo-1507525428034-b723cf961d3e" },
-  { accent:"#b45309", accentSoft:"#fef3c7", keyword:"desert canyon",   label:"Midsummer",   photoId:"photo-1469854523086-cc02fe5d8800" },
-  { accent:"#4f46e5", accentSoft:"#e0e7ff", keyword:"lavender field",  label:"Late Summer", photoId:"photo-1499002238440-d264edd596ec" },
-  { accent:"#92400e", accentSoft:"#fef3c7", keyword:"autumn leaves",   label:"Autumn",      photoId:"photo-1508739773434-c26b3d09e071" },
-  { accent:"#c2410c", accentSoft:"#ffedd5", keyword:"harvest fall",    label:"Deep Autumn", photoId:"photo-1508193638397-1c4234db14d8" },
-  { accent:"#475569", accentSoft:"#f1f5f9", keyword:"foggy forest",    label:"Late Autumn", photoId:"photo-1448375240586-882707db888b" },
-  { accent:"#1e40af", accentSoft:"#dbeafe", keyword:"ice frost",       label:"Winter",      photoId:"photo-1491002052546-bf38f186af56" },
+  // January  – snowy mountain
+  { accent:"#1d4ed8", accentSoft:"#dbeafe", keyword:"winter snow",     label:"Winter",      imageUrl:"https://picsum.photos/seed/january-snow/1200/525" },
+  // February – cherry blossoms / Valentine
+  { accent:"#be185d", accentSoft:"#fce7f3", keyword:"cherry blossom",  label:"Early Spring", imageUrl:"https://picsum.photos/seed/february-bloom/1200/525" },
+  // March    – spring green meadow
+  { accent:"#059669", accentSoft:"#d1fae5", keyword:"spring meadow",   label:"Spring",      imageUrl:"https://picsum.photos/seed/march-meadow/1200/525" },
+  // April    – blooming flower field
+  { accent:"#7c3aed", accentSoft:"#ede9fe", keyword:"flower field",    label:"Late Spring", imageUrl:"https://picsum.photos/seed/april-flowers/1200/525" },
+  // May      – golden hour nature
+  { accent:"#b45309", accentSoft:"#fef3c7", keyword:"golden fields",   label:"Bloom",       imageUrl:"https://picsum.photos/seed/may-golden/1200/525" },
+  // June     – sunny ocean beach
+  { accent:"#0891b2", accentSoft:"#cffafe", keyword:"ocean beach",     label:"Summer",      imageUrl:"https://picsum.photos/seed/june-beach/1200/525" },
+  // July     – tropical sunset
+  { accent:"#d97706", accentSoft:"#fef3c7", keyword:"tropical sunset", label:"Midsummer",   imageUrl:"https://picsum.photos/seed/july-sunset/1200/525" },
+  // August   – lavender fields
+  { accent:"#4f46e5", accentSoft:"#e0e7ff", keyword:"lavender field",  label:"Late Summer", imageUrl:"https://picsum.photos/seed/august-lavender/1200/525" },
+  // September – golden autumn forest
+  { accent:"#92400e", accentSoft:"#fef3c7", keyword:"autumn leaves",   label:"Autumn",      imageUrl:"https://picsum.photos/seed/september-autumn/1200/525" },
+  // October  – fiery fall foliage
+  { accent:"#c2410c", accentSoft:"#ffedd5", keyword:"harvest fall",    label:"Deep Autumn", imageUrl:"https://picsum.photos/seed/october-foliage/1200/525" },
+  // November – misty foggy forest
+  { accent:"#475569", accentSoft:"#f1f5f9", keyword:"foggy forest",    label:"Late Autumn", imageUrl:"https://picsum.photos/seed/november-mist/1200/525" },
+  // December – cosy winter / christmas snow
+  { accent:"#1e40af", accentSoft:"#dbeafe", keyword:"christmas snow",  label:"Winter",      imageUrl:"https://picsum.photos/seed/december-xmas/1200/525" },
 ];
 
 // ─── Indian Holidays & Festivals (month-index is 0-based) ────────────────────

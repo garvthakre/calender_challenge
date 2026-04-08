@@ -33,6 +33,9 @@ export default function WallCalendar() {
   const outTheme = MONTH_THEMES[outMonth];
   const monthKey = formatMonthKey(viewYear, viewMonth);
 
+  const prevTheme = MONTH_THEMES[viewMonth === 0 ? 11 : viewMonth - 1];
+  const nextTheme = MONTH_THEMES[viewMonth === 11 ? 0 : viewMonth + 1];
+
   useEffect(() => {
     try {
       const raw = localStorage.getItem("wall-cal-notes");
@@ -214,7 +217,7 @@ export default function WallCalendar() {
                   month={outMonth}
                   year={outYear}
                   accent={outTheme.accent}
-                  photoId={outTheme.photoId}
+                  imageUrl={outTheme.imageUrl}
                   label={outTheme.label}
                 />
                 <MonthNav
@@ -273,7 +276,7 @@ export default function WallCalendar() {
                 month={viewMonth}
                 year={viewYear}
                 accent={theme.accent}
-                photoId={theme.photoId}
+                imageUrl={theme.imageUrl}
                 label={theme.label}
               />
               <MonthNav
@@ -310,6 +313,14 @@ export default function WallCalendar() {
             />
           </div>
         </div>
+      </div>
+
+      {/* Preload adjacent months' images to prevent flashing on navigate */}
+      <div style={{ display: "none" }} aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={prevTheme.imageUrl} alt="" rel="preload" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={nextTheme.imageUrl} alt="" rel="preload" />
       </div>
     </div>
   );
