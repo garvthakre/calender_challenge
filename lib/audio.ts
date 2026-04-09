@@ -3,12 +3,20 @@
 // ─── Refined Web Audio API synthesizer ────────────────────────────────────────
 // Produces classy, tactile sounds with careful layering and envelope shaping.
 
+declare global {
+  interface Window {
+    webkitAudioContext?: typeof AudioContext;
+  }
+}
+
 let audioCtx: AudioContext | null = null;
 
 const getContext = (): AudioContext | null => {
   if (typeof window === "undefined") return null;
   if (!audioCtx) {
-    audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const AudioCtor = window.AudioContext ?? window.webkitAudioContext;
+    if (!AudioCtor) return null;
+    audioCtx = new AudioCtor();
   }
   if (audioCtx.state === "suspended") audioCtx.resume();
   return audioCtx;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { MONTH_THEMES, DateRange, formatMonthKey } from "@/lib/calendar";
 import { playFlipSound, playPopSound } from "@/lib/audio";
 
@@ -38,21 +38,25 @@ export default function WallCalendar() {
   const nextTheme = MONTH_THEMES[viewMonth === 11 ? 0 : viewMonth + 1];
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem("wall-cal-notes");
-      if (raw) setNotes(JSON.parse(raw));
-    } catch {}
-  }, []);
-
-  useEffect(() => {
     document.documentElement.style.setProperty("--color-accent",      theme.accent);
     document.documentElement.style.setProperty("--color-accent-soft", theme.accentSoft);
   }, [theme]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = window.localStorage.getItem("wall-cal-notes");
+      if (raw) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setNotes(JSON.parse(raw));
+      }
+    } catch {}
+  }, []);
+
   // Cleanup on unmount
   useEffect(() => () => { if (flipTimeoutRef.current) clearTimeout(flipTimeoutRef.current); }, []);
 
-  const triggerFlip = useCallback((dir: AnimDir, newMonth: number, newYear: number) => {
+  const triggerFlip = (dir: AnimDir, newMonth: number, newYear: number) => {
     if (isFlipping) return;
 
     // Snapshot outgoing
@@ -77,21 +81,21 @@ export default function WallCalendar() {
       setIsFlipping(false);
       setAnimDir(null);
     }, 680);
-  }, [isFlipping, viewMonth, viewYear]);
+  };
 
-  const prevMonth = useCallback(() => {
+  const prevMonth = () => {
     const nm = viewMonth === 0 ? 11 : viewMonth - 1;
     const ny = viewMonth === 0 ? viewYear - 1 : viewYear;
     triggerFlip("prev", nm, ny);
-  }, [viewMonth, viewYear, triggerFlip]);
+  };
 
-  const nextMonth = useCallback(() => {
+  const nextMonth = () => {
     const nm = viewMonth === 11 ? 0 : viewMonth + 1;
     const ny = viewMonth === 11 ? viewYear + 1 : viewYear;
     triggerFlip("next", nm, ny);
-  }, [viewMonth, viewYear, triggerFlip]);
+  };
 
-  const handleDayClick = useCallback((day: number) => {
+  const handleDayClick = (day: number) => {
     // Play the tactile pop sound
     playPopSound();
 
@@ -101,15 +105,15 @@ export default function WallCalendar() {
       if (day < prev.start)                        return { start: day, end: prev.start };
       return { start: prev.start, end: day };
     });
-  }, []);
+  };
 
-  const handleNoteChange = useCallback((text: string) => {
+  const handleNoteChange = (text: string) => {
     setNotes(prev => {
       const next = { ...prev, [monthKey]: text };
       try { localStorage.setItem("wall-cal-notes", JSON.stringify(next)); } catch {}
       return next;
     });
-  }, [monthKey]);
+  };
 
   return (
     <div

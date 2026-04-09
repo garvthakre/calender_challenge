@@ -116,19 +116,21 @@ function shapeStyle(
 }
 
 function ParticleLayer({ cfg, seed = 0 }: { cfg: Omit<ParticleConfig, "layer2">; seed?: number }) {
+  const seeded = (n: number) => {
+    const value = ((n * 1664525 + 1013904223 + seed) >>> 0) / 0x100000000;
+    return value;
+  };
+
   return (
     <>
       {Array.from({ length: cfg.count }, (_, i) => {
-        const r = (n: number) => {
-          const x = Math.sin(n * 9301 + seed * 49297 + 233) * 43758.5453;
-          return x - Math.floor(x);
-        };
-        const left     = r(i * 7 + 1) * 100;
-        const delay    = r(i * 7 + 2) * cfg.duration;
-        const dur      = cfg.duration * (0.7 + r(i * 7 + 3) * 0.9);
-        const sizeMult = 0.6 + r(i * 7 + 4) * 0.9;
-        const actual   = Math.round(cfg.size * sizeMult);
-        const wobble   = (r(i * 7 + 5) - 0.5) * 30;
+        const r = (n: number) => seeded(i * 7 + n);
+        const left     = Math.floor(r(1) * 10000) / 100;
+        const delay    = Math.floor(r(2) * cfg.duration * 100) / 100;
+        const dur      = Math.floor(cfg.duration * (0.7 + r(3) * 0.9) * 100) / 100;
+        const sizeMult = Math.floor((0.6 + r(4) * 0.9) * 100) / 100;
+        const actual   = Math.max(1, Math.round(cfg.size * sizeMult));
+        const wobble   = Math.floor((r(5) - 0.5) * 30 * 100) / 100;
         const isRising = cfg.animation === "bubbleRise" || cfg.animation === "emberRise";
 
         return (
